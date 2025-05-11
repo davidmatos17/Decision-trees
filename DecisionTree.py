@@ -7,8 +7,8 @@ class DecisionTree():
 
     def __init__(self, dataset, binning = False):
         self.initialDataset = dataset
-        self.root = self.__generateNode(dataset)
         self.binning = binning
+        self.root = self.__generateNode(dataset)
 
     def __generateNode(self, dataset, tabI=0, numRemovedColumns=0, value=None):
         attribute, values = ID3(dataset).bestAtributte
@@ -79,43 +79,56 @@ class DecisionTree():
         return
     
     def classifyExample(self, dataset, line):
-
         actualNode = self.root
         value = dataset.array[line][actualNode.getAttribute()]
 
-        while (actualNode.isClass != True):
-            
+        while not actualNode.isClass:
             neighbours = actualNode.getNeighbours()
-            
             found = False
-            for node in (neighbours):
-                if (self.binning == False):
-                    if node.getValue() == value:
+
+            for node in neighbours:
+                node_val = node.getValue()
+
+                if not self.binning:
+                    if node_val == value:
                         dataset.removeColumn(actualNode.getAttribute())
                         actualNode = node
-                        if (actualNode.isClass != True): value = dataset.array[line][(actualNode.getAttribute())]
+                        if not actualNode.isClass:
+                            value = dataset.array[line][actualNode.getAttribute()]
                         found = True
                         break
                 else:
-                    spliting = node.getValue().split('-')
-                    if (spliting[0].replace(".", "", 1).isdigit() == True):
-                        minVal = float(spliting[0])
-                        maxVal = float(spliting[1])
-                        value = float(value)
-                        if value >= minVal and value <= maxVal:
+                    
+                    if '-' in node_val:
+                        try:
+                            minVal, maxVal = map(float, node_val.split('-'))
+                            
+                            if '-' in str(value):
+                                vmin, vmax = map(float, value.split('-'))
+                                val = (vmin + vmax) / 2
+                            else:
+                                val = float(value)
+                        except:
+                            continue
+
+                        if minVal <= val <= maxVal:
                             dataset.removeColumn(actualNode.getAttribute())
                             actualNode = node
-                            if (actualNode.isClass != True): value = dataset.array[line][(actualNode.getAttribute())]
+                            if not actualNode.isClass:
+                                value = dataset.array[line][actualNode.getAttribute()]
                             found = True
                             break
                     else:
-                        if node.getValue() == value:
+                        
+                        if node_val == value:
                             dataset.removeColumn(actualNode.getAttribute())
                             actualNode = node
-                            if (actualNode.isClass != True): value = dataset.array[line][(actualNode.getAttribute())]
+                            if not actualNode.isClass:
+                                value = dataset.array[line][actualNode.getAttribute()]
                             found = True
                             break
 
-            if (found == False): return -1
-    
+            if not found:
+                return -1
+
         return actualNode.getAttribute()

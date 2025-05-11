@@ -33,6 +33,8 @@ class Dataset():
 
         if (binCount != None):
             self.binning(binCount)
+        self.examples = self.array 
+
             
         return self
     
