@@ -31,7 +31,7 @@ def gerar_dataset_csv(num_amostras=20000, path='datasets/connect4_dataset.csv', 
             jogadas_totais = random.randint(6, 41)  # mid to late-game
 
             # Varia o foco posicional: esquerda, centro ou direita
-            pos_focus = random.choice(["left", "center", "right"])
+            pos_focus = random.choice(["left", "center", "right","random"])
 
             jogador = 'O' if simbolo_ia == 'X' else 'X'
 
@@ -45,8 +45,10 @@ def gerar_dataset_csv(num_amostras=20000, path='datasets/connect4_dataset.csv', 
                     legal_focus = [col for col in legal if col <= 2]
                 elif pos_focus == "center":
                     legal_focus = [col for col in legal if 2 <= col <= 4]
-                else:
+                elif pos_focus == "right":
                     legal_focus = [col for col in legal if col >= 4]
+                else:
+                    legal_focus = [col for col in legal if col <=6]
 
                 if not legal_focus:
                     legal_focus = legal  # fallback
