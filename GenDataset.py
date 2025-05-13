@@ -87,7 +87,7 @@ def gerar_dataset_csv(num_amostras=20000, path='datasets/connect4_dataset.csv', 
             exemplos_gerados += 1
             print(f"Exemplo #{exemplos_gerados} gerado. Foco: {pos_focus}")
 
-    print(f"\n[🎉] {exemplos_gerados} exemplos gerados com sucesso em {path}")
+    print(f"\n{exemplos_gerados} exemplos gerados com sucesso em {path}")
 
 if __name__ == "__main__":
     gerar_dataset_csv(num_amostras=20000)
