@@ -4,6 +4,10 @@ import csv
 import random
 from copy import deepcopy
 
+#Raciocinio deste código, usa jogadas random
+#No entanto pode escolher jogos mais à direta, centro, esquerda e totalmente random
+#A ultima jogada é com MCTS (bestmove), bestmove é a classe 
+#guarda num csv, o estado do jogo , numero de peças jogadas e bestmove (podes ver os datasets)
 
 game_path = os.path.abspath(os.path.join(os.path.dirname(__file__), 'Game'))
 sys.path.append(game_path)
@@ -11,6 +15,7 @@ sys.path.append(game_path)
 from Game.searchAlgos.mcts import MCTS
 from Game.fourGame import FourGame  
 
+#alterar num_amostras para o pretendido de amostras
 def gerar_dataset_csv(num_amostras=20000, path='datasets/connect4_dataset.csv', simbolo_ia='X'):
     with open(path, mode='w', newline='') as f:
         writer = csv.writer(f)
@@ -30,7 +35,7 @@ def gerar_dataset_csv(num_amostras=20000, path='datasets/connect4_dataset.csv', 
             game = FourGame(columns=7, lines=6)
             jogadas_totais = random.randint(6, 41)  # mid to late-game
 
-            # Varia o foco posicional: esquerda, centro ou direita
+            #varia o foco posicional: esquerda, centro, direita ou random extra
             pos_focus = random.choice(["left", "center", "right","random"])
 
             jogador = 'O' if simbolo_ia == 'X' else 'X'
@@ -40,13 +45,14 @@ def gerar_dataset_csv(num_amostras=20000, path='datasets/connect4_dataset.csv', 
                 if not legal or game.gameOver():
                     break
 
-                # Filtra jogadas com base no foco posicional
+                #filtra jogadas com base no foco posicional
                 if pos_focus == "left":
                     legal_focus = [col for col in legal if col <= 2]
                 elif pos_focus == "center":
                     legal_focus = [col for col in legal if 2 <= col <= 4]
                 elif pos_focus == "right":
                     legal_focus = [col for col in legal if col >= 4]
+                #jogadas mais random
                 else:
                     legal_focus = [col for col in legal if col <=6]
 
@@ -71,7 +77,7 @@ def gerar_dataset_csv(num_amostras=20000, path='datasets/connect4_dataset.csv', 
             best_move = best.move
             game.makeMove(best_move + 1, simbolo_ia)
 
-            # Cria entrada no CSV
+            # cria entrada no CSV
             estado = []
             piece_count = 0
             for row in game.state:
@@ -92,4 +98,5 @@ def gerar_dataset_csv(num_amostras=20000, path='datasets/connect4_dataset.csv', 
     print(f"\n{exemplos_gerados} exemplos gerados com sucesso em {path}")
 
 if __name__ == "__main__":
+    #aplicar aqui
     gerar_dataset_csv(num_amostras=20000)

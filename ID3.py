@@ -35,12 +35,19 @@ class ID3():
         maxGain = float('-inf')
         colMax = 0
         valuesMax = {}
+        
+        #coluna, para cada atributo 
         for j in range(0, self.dataset.cols-1):
             values = {}
             gain = self.dataSetEntropy
+            #linhas, para cada valor desse atributo
+
+            #busca cada valor desse atributo "j"
+            #coloca numa matriz [valor do atributo][classe] 
             for i in range(0, self.dataset.lines):
                 value = self.dataset.getValue(i, j)
-
+                
+                #inicialização da contagem de todos (total)
                 if (not (value in values)):
                     values[value] = {"total": 0}
                 
@@ -53,11 +60,13 @@ class ID3():
                 
                 values[value]["total"] += 1
 
+            #Vê qual a probabilidade de ser tal classe se o valor desse atributo for (key) , e isso é dado values[key][key2]
             for key in values:
                 for key2 in values[key]:
                     if key2 != "total":
-                        values[key][key2] /= values[key]["total"]
+                        values[key][key2] /= values[key]["total"] #valor do atriburo para uma classe / numeros do atributo
                 total = values[key].pop("total")
+                #Calculo do ganho de informação , ou a melhoria de incerteza
                 gain -= (total/self.dataset.lines) * self.__Entropy(values[key])
                 values[key]["total"] = total
 
@@ -65,5 +74,5 @@ class ID3():
                 maxGain = gain
                 colMax = j
                 valuesMax = values
-
+        #coluna do melhor atributo, e probabilidades de ser tal classe dependendo do valor do atributo
         return colMax, valuesMax

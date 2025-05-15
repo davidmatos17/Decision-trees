@@ -10,6 +10,7 @@ class Dataset():
             self.lines = len(self.array)
             self.cols = len(self.array[0])
     
+    #hasHeader (Tem atributos e classe) #binCount(Intervalos a dividir) 
     def readCSV(self, path, filename, hasId=False, hasHeader=True, headerInput = None, binCount = None):
         csvFile = open(path+filename+'.csv', 'r')
         reader = csv.reader(csvFile)
@@ -64,7 +65,7 @@ class Dataset():
 
             minVal, maxVal = min(colData), max(colData)                             # Get min and max values of column
             binWidth = (maxVal - minVal) / binCount                                 # Calculate bin width
-            bins = [minVal + i * binWidth for i in range(binCount + 1)]              # Create bins
+            bins = [minVal + i * binWidth for i in range(binCount + 1)]              # Create bins, from where it starts
 
             for i in range(self.lines):                                                 # Iterate through rows
                 value = float(self.array[i][col])                                       # Get value of cell
@@ -74,3 +75,5 @@ class Dataset():
                         break                                                           # Exit loop
                     else:                                                               # If value is not within bin
                         self.array[i][col] = f"{bins[-2]:.2f}-{bins[-1]:.2f}"           # Replace value with last bin range
+
+#binning é basicamente, dividir um intervalo mais em menores. Tu escolhes em quantas partes

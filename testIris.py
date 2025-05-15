@@ -12,7 +12,8 @@ test_data = Dataset(deepcopy(dataset.array[split_point:]), deepcopy(dataset.head
 
 #Cria a árvore com o dataset de treino
 tree = DecisionTree(train_data, binning=True)
-
+print("\n Árvore de Decisão\n")
+tree.DFSPrint()
 print('\nAvaliação no conjunto de teste:\n')
 
 #Testa linha a linha

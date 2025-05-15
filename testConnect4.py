@@ -1,4 +1,4 @@
-# Usa 80% para "construir" e 20% para testes 
+# Usa 80% para "construir" a àrvore e 20% para testes 
 from Dataset import Dataset
 from DecisionTree import DecisionTree
 from copy import deepcopy
@@ -6,13 +6,16 @@ from copy import deepcopy
 # Lê o dataset (sem binning e sem ID)
 dataset = Dataset().readCSV('./datasets/', 'connect4_dataset', hasId=False, hasHeader=True)
 
-# Divide em treino e teste
+# Divide em treino e teste 
 split_point = int(0.8 * dataset.lines)
 train_data = Dataset(deepcopy(dataset.array[:split_point]), deepcopy(dataset.header))
 test_data = Dataset(deepcopy(dataset.array[split_point:]), deepcopy(dataset.header))
 
 # Cria a árvore de decisão
 tree = DecisionTree(train_data)
+
+print("\n Árvore de Decisão\n")
+tree.DFSPrint()
 
 print('\nAvaliação no conjunto de teste:\n')
 

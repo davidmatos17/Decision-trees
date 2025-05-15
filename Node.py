@@ -1,6 +1,6 @@
 class Node:
-    def __init__(self, label, value=None, name=None, isClass=False, counter=0):
-        self.label = label                  # Índice do atributo ou valor da classe
+    def __init__(self, atributte, value=None, name=None, isClass=False, counter=0):
+        self.atributte = atributte           # Índice do atributo ou valor da classe
         self.value = value                  # Valor do atributo que leva a este nó
         self.name = name                    # Nome do atributo
         self.isClass = isClass              # True se for um nó folha (classe final)
@@ -14,7 +14,7 @@ class Node:
         return self.children
 
     def getAttribute(self):
-        return self.label
+        return self.atributte
 
     def getValue(self):
         return self.value
