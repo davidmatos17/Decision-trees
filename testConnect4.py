@@ -2,10 +2,11 @@
 from Dataset import Dataset
 from DecisionTree import DecisionTree
 from copy import deepcopy
+import random
 
 # Lê o dataset (sem binning e sem ID)
 dataset = Dataset().readCSV('./datasets/', 'connect4_dataset', hasId=False, hasHeader=True)
-
+random.shuffle(dataset.array)
 # Divide em treino e teste 
 split_point = int(0.8 * dataset.lines)
 train_data = Dataset(deepcopy(dataset.array[:split_point]), deepcopy(dataset.header))
@@ -13,9 +14,6 @@ test_data = Dataset(deepcopy(dataset.array[split_point:]), deepcopy(dataset.head
 
 # Cria a árvore de decisão
 tree = DecisionTree(train_data)
-
-print("\n Árvore de Decisão\n")
-tree.DFSPrint()
 
 print('\nAvaliação no conjunto de teste:\n')
 

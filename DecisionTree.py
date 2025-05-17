@@ -75,13 +75,11 @@ class DecisionTree():
 
         return node
 
-    #ATENÇÃO --------------------------------------
-    #caga em explicar este, por mim até eliminavamos
     def DFSPrint(self, tabI=0, node=None):
         if node is None:
             node = self.root
 
-        print('\t' * tabI + '<' + str(node.atributte) + '>')
+        print('\t' * tabI + '<' + str(node.label) + '>')
 
         for currentNode in node.getNeighbours():
             if currentNode.isClass:
@@ -92,6 +90,20 @@ class DecisionTree():
                 self.DFSPrint(tabI + 2, currentNode)
     
     #------------------------------------------------------
+
+    def classifyMultipleExamples(self, path, file):
+
+        dataset = Dataset().readCSV(path, file, True, False)
+        for line in range(dataset.lines):
+            classExmp = self.classifyExample(copy.deepcopy(dataset), line)
+            if (classExmp == -1):
+                print('Not Found!!')
+            else:
+                print('Line ' + str(line+1) + ' Class: ' + classExmp)
+        return
+
+
+
     #Percorre a árvore à procura de um nó folha, tenta ver o caminho do valor do atributo a que corresponde
     def classifyExample(self, dataset, line):
         #nó atual
