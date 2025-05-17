@@ -51,7 +51,7 @@ def main():
             iaSymbol = 'X'
 
     # Escolhe contra que algoritmo o jogador pretende jogar
-    print('===============\n| 1 -> A*     |\n| 2 -> MCTS   |\n| 3 -> MinMax |\n| 4 -> Human vs Human | \n===============')
+    print('===============\n| 1 -> A*     |\n| 2 -> MCTS   |\n| 3 -> MinMax | \n===============')
     algoResp = int(input('Escolhe contra que algoritmo gostarias de jogar: '))
     match algoResp:
         case 1:
